@@ -75,15 +75,24 @@ public class CsvReader {
 
         for (int i = 0; i < callSchedule.size(); i++) {
             if (callSchedule.get(i) < 0) {
-                if (Math.abs(callSchedule.get(i)) > limit) {
-                    price += highPrice * limit + afterLimit * (Math.abs(callSchedule.get(i)) - limit);
+                if ((Math.abs(callSchedule.get(i)) - countedDuration) > limit) {
+                    price += highPrice * (limit - countedDuration) + afterLimit * (Math.abs(callSchedule.get(i)) - limit);
+                    countedDuration += Math.abs(callSchedule.get(i);
+                } else if (countedDuration > limit) {
+                    price += afterLimit * Math.abs(callSchedule.get(i));
                     countedDuration += Math.abs(callSchedule.get(i);
                 } else {
                     price += highPrice * limit + afterLimit * (Math.abs(callSchedule.get(i)) - limit);
                     countedDuration += Math.abs(callSchedule.get(i);
                 }
             } else {
-                price += lowPrice * callSchedule.get(i);
+                if ((callSchedule.get(i) - countedDuration) > limit) {
+                    price += lowPrice * limit + afterLimit * (Math.abs(callSchedule.get(i)) - limit);
+                    countedDuration += Math.abs(callSchedule.get(i);
+                } else {
+                    price += lowPrice * limit + afterLimit * (Math.abs(callSchedule.get(i)) - limit);
+                    countedDuration += Math.abs(callSchedule.get(i);
+                }
             }
         }
 
