@@ -40,7 +40,6 @@ public class CsvReader {
                     long diffInMillies = Math.abs(startDate.getTime() - endDate.getTime());
                     long diff = TimeUnit.MINUTES.convert(diffInMillies, TimeUnit.MILLISECONDS);
                     System.out.println(diff);
-
 //                    calculate(8,16);
 
                 }
