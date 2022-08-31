@@ -71,13 +71,18 @@ public class CsvReader {
         int limit = 5; // in minutes
         // pokud je v callSchedule zaporna hodnota jde o cas v dobe vyssi ceny, pokud je kladna jde o cas v dobe
         // nizsi ceny
-        for (int i = 0; i < callSchedule.size(); i++) {
-            if (callSchedule.get(i) < 0) {
-                price += highPrice * -callSchedule.get(i);
-            } else {
-                price += lowPrice * -callSchedule.get(i);
+
+            for (int i = 0; i < callSchedule.size(); i++) {
+                if (callSchedule.get(i) < 0) {
+                    if(Math.abs(callSchedule.get(i))> limit)
+                    price += highPrice * Math.abs(callSchedule.get(i));
+                } else {
+                    price += lowPrice * callSchedule.get(i);
+                }
             }
-        }
+
+
+
         if (duration > limit) {
             price = limit * lowPrice + (duration - limit) * afterLimit;
             return price;
