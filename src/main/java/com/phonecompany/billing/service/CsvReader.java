@@ -40,7 +40,9 @@ public class CsvReader {
                     long diffInMillies = Math.abs(startDate.getTime() - endDate.getTime());
                     long diff = TimeUnit.MINUTES.convert(diffInMillies, TimeUnit.MILLISECONDS);
                     System.out.println(diff);
-//                    calculate(8,16);
+                    calculate((int) diff);
+                    System.out.println("PRICE" + calculate(50));
+                    System.out.println(calculate(5));
 
                 }
             }
@@ -52,10 +54,14 @@ public class CsvReader {
         }
     }
 
-    public static int calculate(int startHour, int endHour)
+    public static double calculate(int duration)
     {
-//        if(startTime>0 )
-        return 1;
+        double price = 0;
+        if(duration > 5){
+            price = 5 + (duration -5) * 0.2;
+        return price;
+        }
+        return duration;
     }
 }
 
