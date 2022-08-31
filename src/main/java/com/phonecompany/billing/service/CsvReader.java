@@ -76,32 +76,29 @@ public class CsvReader {
         for (int i = 0; i < callSchedule.size(); i++) {
             if (callSchedule.get(i) < 0) {
                 if ((Math.abs(callSchedule.get(i)) - countedDuration) > limit) {
-                    price += highPrice * (limit - countedDuration) + afterLimit * (Math.abs(callSchedule.get(i)) - (limit - countedDuration) );
+                    price += highPrice * (limit - countedDuration) + afterLimit * (Math.abs(callSchedule.get(i)) - (limit - countedDuration));
                     countedDuration += Math.abs(callSchedule.get(i));
                 } else if (countedDuration > limit) {
                     price += afterLimit * Math.abs(callSchedule.get(i));
                     countedDuration += Math.abs(callSchedule.get(i));
                 } else {
-                    price += highPrice * limit + afterLimit * (Math.abs(callSchedule.get(i)) - limit);
+                    price += highPrice * Math.abs(callSchedule.get(i));
                     countedDuration += Math.abs(callSchedule.get(i));
                 }
             } else {
-                if ((callSchedule.get(i) - countedDuration) > limit) {
-                    price += lowPrice * limit + afterLimit * (Math.abs(callSchedule.get(i)) - limit);
-                    countedDuration += Math.abs(callSchedule.get(i));
+                if (callSchedule.get(i) - countedDuration > limit) {
+                    price += lowPrice * (limit - countedDuration) + afterLimit * (callSchedule.get(i) - (limit - countedDuration));
+                    countedDuration += callSchedule.get(i);
+                } else if (countedDuration > limit) {
+                    price += afterLimit * callSchedule.get(i);
+                    countedDuration += callSchedule.get(i);
                 } else {
-                    price += lowPrice * limit + afterLimit * (Math.abs(callSchedule.get(i)) - limit);
-                    countedDuration += Math.abs(callSchedule.get(i));
+                    price += lowPrice * callSchedule.get(i);
+                    countedDuration += callSchedule.get(i);
                 }
             }
         }
-
-
-        if (duration > limit) {
-            price = limit * lowPrice + (duration - limit) * afterLimit;
-            return price;
-        }
-        return duration;
+        return price;
     }
 }
 
