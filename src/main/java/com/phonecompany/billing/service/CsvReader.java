@@ -69,7 +69,8 @@ public class CsvReader {
         double highPrice = 1;
         double afterLimit = 0.2;
         int limit = 5; // in minutes
-        // pokud je v callSchedule zaporna hodnota
+        // pokud je v callSchedule zaporna hodnota jde o cas v dobe vyssi ceny, pokud je kladna jde o cas v dobe
+        // nizsi ceny
         for (int i = 0; i < callSchedule.size(); i++) {
             if (callSchedule.get(i) < 0) {
                 price += highPrice * -callSchedule.get(i);
