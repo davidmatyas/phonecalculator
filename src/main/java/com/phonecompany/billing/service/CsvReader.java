@@ -24,6 +24,12 @@ public class CsvReader {
             }
             for (int i = 0; i < values.size(); i++) {
                 System.out.println("TEST" + Arrays.toString(values.get(i)));
+                for (int j = 0; j < 3; j++) {
+                    System.out.println(values.get(i)[j]);
+                    System.out.println("Phone number " + values.get(i)[0] + " start call " + values.get(i)[1]  + "end" +
+                            " " +
+                            "call " + values.get(i)[2]);
+                }
             }
             System.out.println(lines.get(0));
         } catch (IOException e) {
