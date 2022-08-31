@@ -1,7 +1,9 @@
 package com.phonecompany.billing;
 
-import java.math.BigDecimal;
+import com.phonecompany.billing.service.CsvReader;
 
-public interface TelephoneBillCalculator {
-    BigDecimal calculate (String phoneLog);
+public class TelephoneBillCalculator {
+//    public static void main(String[] args) {
+//        CsvReader.calculate("phonelog.csv");
+//    }
 }
