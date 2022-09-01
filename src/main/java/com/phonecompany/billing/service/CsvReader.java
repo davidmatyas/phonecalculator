@@ -20,6 +20,7 @@ public class CsvReader {
         List<String[]> values = new ArrayList<>();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
         double callPrice;
+        double totalPrice = 0;
         int promoPrice = 0;
 
         try {
@@ -27,27 +28,29 @@ public class CsvReader {
             for (String line : lines) {
                 values.add(line.split(","));
             }
-            String promoNumber = promoNumberSelect(values); // vybere promo cislo - cislo na ktere bylo nejvice volano a pokud
-            // je jich vice tak to, ktere ma vyssi aritmetickou hodnotu
+            // vybere promo cislo - cislo na ktere bylo nejvice volano a pokud je jich vice tak to, ktere ma vyssi aritmetickou hodnotu
+            String promoNumber = promoNumberSelect(values);
 
             for (int i = 0; i < values.size(); i++) {
                 LocalDateTime callStart = LocalDateTime.parse(values.get(i)[1], formatter);
                 LocalDateTime callEnd = LocalDateTime.parse(values.get(i)[2], formatter);
                 long duration = (Duration.between(callStart, callEnd).getSeconds()) / 60;
-                System.out.println(promoNumber);
+//                Zapocitani promoslevy
                 if (values.get(i)[0].equals(promoNumber.substring(0,12))) {
                     callPrice = calculate(callStart, callEnd) * promoPrice;
+                    totalPrice +=callPrice;
                 } else {
                     callPrice = calculate(callStart, callEnd);
+                    totalPrice +=callPrice;
                 }
                 System.out.println("Phone number " + values.get(i)[0] + " start call " + values.get(i)[1] + " " +
                         "end " +
                         "call " + values.get(i)[2] + " duration " + duration + " price " + callPrice);
             }
+            System.out.println("----- Total price ----" + totalPrice);
         } catch (IOException e) {
             System.out.println("File is incorrect!");
         }
-
     }
 // Vyber promo cisla, pro zjednoduseni pouzita jen cislo bez predvolby, aby to nemuselo byt Double. Nefungovalo by to
 // tedy na zahranicni cisla. Nejprve si udelam HashMapu, kde si dam pocet opakovani cisla a nasledne jako return to
@@ -69,6 +72,10 @@ public class CsvReader {
                 .max(Map.Entry.<Integer, Integer>comparingByValue()
                         .thenComparing(Map.Entry::getKey)).get();
     }
+//Kalukulace je udelana na varianty pokud je hovor jen v nizkem tarifu,
+//    vysokem tarifu nebo zacina v nizkem tarifu a pokracuje ve vysokem a nebo zacina ve vysokem a konci v nizkem.
+//    Chybi nektere extremni varianty,
+//    kdy treba hovor trva dele nez den nebo je pres pulnoc nebo zacne v nizkem pokracuje cele vysoke pasmo a skonci opet v nizkem
 
     public static double calculate(LocalDateTime callStart, LocalDateTime callEnd) {
         double price = 0;
